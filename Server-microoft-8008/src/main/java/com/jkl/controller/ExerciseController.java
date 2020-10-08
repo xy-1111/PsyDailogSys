@@ -2,6 +2,7 @@ package com.jkl.controller;
 
 import com.jkl.TopicJson;
 import com.jkl.bean.VO.ReturnVO;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,7 @@ import static com.jkl.TopicJson.MBTI93;
  * @date 2020/10/8/008 18:22
  */
 @RequestMapping("/exercise")
+@Controller
 public class ExerciseController {
 
     @RequestMapping(value = "/get/{name}",produces = "application/json")
