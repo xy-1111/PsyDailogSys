@@ -33,11 +33,11 @@ public class UserBean {
 
     @Column(name = "openId",length = 50)
     private String openId;
-
-    @Column(name="loginAbleStatus",length = 1)
+    //insertable为false让数据库默认值生效
+    @Column(name="loginAbleStatus",length = 1,insertable = false)
     private int loginAbleStatus;
 
-    @Column(name="vip",length = 1)
+    @Column(name="vip",length = 1,insertable = false)
     private int vip;
 
     @Column(name="phone",length = 20)
@@ -46,7 +46,7 @@ public class UserBean {
     @Column(name="userName",length = 40)
     private String userName;
 
-    @Column(name="gender",length = 1)
+    @Column(name="gender",length = 1,insertable = false)
     private int gender;
 
     public int getUserId() {

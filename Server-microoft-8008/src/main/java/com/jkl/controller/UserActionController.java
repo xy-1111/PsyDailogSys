@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -29,7 +30,7 @@ public class UserActionController {
 
     @RequestMapping(value = "/login/{name}",produces = "application/json")
     @ResponseBody
-    public ReturnVO login(@PathVariable("name") String name, HttpServletRequest request){
+    public ReturnVO login(@PathVariable("name") String name, HttpServletRequest request, HttpSession session){
         ReturnVO<Object> returnVO = new ReturnVO<>();
         if(DataCheckUtil.isEmptyString(name))
         {
@@ -37,6 +38,7 @@ public class UserActionController {
             return  returnVO;
         }
         UserBean userBean = userActionService.userLogin(name);
+        session.setAttribute("user",userBean);
         returnVO.setDatas(userBean);
         return returnVO;
     }
