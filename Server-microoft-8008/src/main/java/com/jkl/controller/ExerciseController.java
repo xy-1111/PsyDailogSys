@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import static com.jkl.TopicJson.MBTI93;
 
@@ -24,7 +25,7 @@ public class ExerciseController {
 
     @RequestMapping(value = "/get/{name}",produces = "application/json")
     @ResponseBody
-    public ReturnVO login(@PathVariable("name") String name, HttpServletRequest request, HttpSession session) {
+    public ReturnVO getTopic(@PathVariable("name") String name, HttpServletRequest request, HttpSession session) {
 
         ReturnVO<String> returnVO = new ReturnVO<>();
         Class<TopicJson> fileDemoClass = TopicJson.class;
@@ -36,6 +37,20 @@ public class ExerciseController {
         } catch (Exception e) {
             returnVO.setMsg("不存在的题目");
         }
+        return returnVO;
+    }
+
+    @RequestMapping(value = "/gets",produces = "application/json")
+    @ResponseBody
+    public ReturnVO getAllTopicName(HttpServletRequest request, HttpSession session) {
+        ReturnVO<ArrayList> returnVO = new ReturnVO<>();
+        Class<TopicJson> fileDemoClass = TopicJson.class;
+        Field[] fields = fileDemoClass.getFields();
+        ArrayList<String> names = new ArrayList<>();
+        for (int i = 0; i < fields.length; i++) {
+            names.add(fields[i].getName());
+        }
+        returnVO.setDatas(names);
         return returnVO;
     }
 }
