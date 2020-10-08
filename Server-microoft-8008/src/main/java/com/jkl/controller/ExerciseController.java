@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.lang.reflect.Field;
+
 import static com.jkl.TopicJson.MBTI93;
 
 /**
@@ -23,8 +25,17 @@ public class ExerciseController {
     @RequestMapping(value = "/get/{name}",produces = "application/json")
     @ResponseBody
     public ReturnVO login(@PathVariable("name") String name, HttpServletRequest request, HttpSession session) {
+
         ReturnVO<String> returnVO = new ReturnVO<>();
-        returnVO.setDatas(MBTI93);
+        Class<TopicJson> fileDemoClass = TopicJson.class;
+        Field field;
+        try {
+            field = fileDemoClass.getField(name);
+            String data = (String) field.get(String.class);
+            returnVO.setDatas(data);
+        } catch (Exception e) {
+            returnVO.setMsg("不存在的题目");
+        }
         return returnVO;
     }
 }
