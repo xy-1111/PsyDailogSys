@@ -27,7 +27,7 @@ public class UserActionController {
     @Autowired
     private IUserActionService userActionService;
 
-    @RequestMapping("/login/{name}")
+    @RequestMapping(value = "/login/{name}",produces = "application/json")
     @ResponseBody
     public ReturnVO login(@PathVariable("name") String name, HttpServletRequest request){
         ReturnVO<Object> returnVO = new ReturnVO<>();
