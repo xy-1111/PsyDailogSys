@@ -17,6 +17,15 @@ public class UserBean {
 //    主键采用UUID策略
 //    @GenericGenerator是Hibernate提供的主键生成策略注解，注意下面的@GeneratedValue（JPA注解）使用generator = "idGenerator"引用了上面的name = "idGenerator"主键生成策略
 
+
+    public UserBean() {
+    }
+
+    public UserBean(String openId, String userName) {
+        this.openId = openId;
+        this.userName = userName;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="userId")//数据库字段名

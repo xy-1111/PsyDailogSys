@@ -18,4 +18,9 @@ public interface UserRepository extends JpaRepository<UserBean, String> {
 
     @Query(value = "from UserBean ")
     List<UserBean> listUsers();
+
+    @Query(value = "from UserBean as u where u.userName = :name")
+    UserBean findUserByUsername(@Param("name") String name);
+
+
 }
