@@ -1,6 +1,7 @@
 package com.jkl.controller;
 
 import com.jkl.TopicJson;
+import com.jkl.Utils.TopicFileHandleUtil;
 import com.jkl.bean.VO.ReturnVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.jkl.TopicJson.MBTI93;
 
@@ -27,16 +29,14 @@ public class ExerciseController {
     @ResponseBody
     public ReturnVO getTopic(@PathVariable("name") String name, HttpServletRequest request, HttpSession session) {
 
-        ReturnVO<String> returnVO = new ReturnVO<>();
-        Class<TopicJson> fileDemoClass = TopicJson.class;
-        Field field;
-        try {
-            field = fileDemoClass.getField(name);
-            String data = (String) field.get(String.class);
-            returnVO.setDatas(data);
-        } catch (Exception e) {
-            returnVO.setMsg("不存在的题目");
-        }
+        ReturnVO<ArrayList<Map>> returnVO = new ReturnVO<>();
+//        Class<TopicJson> fileDemoClass = TopicJson.class;
+//        Field field;
+        //            field = fileDemoClass.getField(name);
+
+        ArrayList<Map> mbti93 = TopicFileHandleUtil.getMBTI93();
+        returnVO.setDatas(mbti93);
+
         return returnVO;
     }
 
