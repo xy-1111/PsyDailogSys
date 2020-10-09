@@ -1,8 +1,14 @@
 package com.jkl.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jkl.TopicJson;
 import com.jkl.Utils.TopicFileHandleUtil;
+import com.jkl.bean.DTO.TopicDataDTO;
+import com.jkl.bean.TopicBean;
 import com.jkl.bean.VO.ReturnVO;
+import com.jkl.repository.TopicRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.jkl.TopicJson.MBTI93;
@@ -24,33 +32,30 @@ import static com.jkl.TopicJson.MBTI93;
 @RequestMapping("/exercise")
 @Controller
 public class ExerciseController {
+    @Autowired
+    private TopicRepository topicRepository;
 
     @RequestMapping(value = "/get/{name}",produces = "application/json")
     @ResponseBody
     public ReturnVO getTopic(@PathVariable("name") String name, HttpServletRequest request, HttpSession session) {
 
-        ReturnVO<ArrayList<Map>> returnVO = new ReturnVO<>();
-//        Class<TopicJson> fileDemoClass = TopicJson.class;
-//        Field field;
-        //            field = fileDemoClass.getField(name);
-
-        ArrayList<Map> mbti93 = TopicFileHandleUtil.getMBTI93();
-        returnVO.setDatas(mbti93);
-
+        ReturnVO<List<TopicDataDTO>> returnVO = new ReturnVO<>();
+        List<String> all = topicRepository.listTopicName();
+        List<TopicDataDTO> datas = null;
+        if(all.contains(name))
+            datas = new Gson().fromJson(topicRepository.getTopicByName(name).getTopicContent(), new TypeToken<List<TopicDataDTO>>(){}.getType());
+        else
+            returnVO.setMsg("不存在的题目");
+        returnVO.setDatas(datas);
         return returnVO;
     }
 
     @RequestMapping(value = "/gets",produces = "application/json")
     @ResponseBody
     public ReturnVO getAllTopicName(HttpServletRequest request, HttpSession session) {
-        ReturnVO<ArrayList> returnVO = new ReturnVO<>();
-        Class<TopicJson> fileDemoClass = TopicJson.class;
-        Field[] fields = fileDemoClass.getFields();
-        ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < fields.length; i++) {
-            names.add(fields[i].getName());
-        }
-        returnVO.setDatas(names);
+        ReturnVO<List> returnVO = new ReturnVO<>();
+        List<String> all = topicRepository.listTopicName();
+        returnVO.setDatas(all);
         return returnVO;
     }
 }

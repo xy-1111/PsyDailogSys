@@ -28,7 +28,7 @@ public class UserBean {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="userId")//数据库字段名
+    @Column(name="userId")
     private int userId;
 
     @Column(name = "openId",length = 50)

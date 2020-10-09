@@ -1,13 +1,15 @@
 package com.jkl.Utils;
 
+import com.google.gson.Gson;
+import com.jkl.bean.DTO.TopicDataDTO;
+import com.jkl.bean.DTO.TopicDataOptionDTO;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zhongxin
@@ -15,17 +17,18 @@ import java.util.Map;
  */
 public class TopicFileHandleUtil {
 
-    public static ArrayList<Map> getMBTI93(){
+    public static String getMBTI93(){
         ArrayList<String> arrayList = TopicFileHandleUtil.getFile("MBTI93.txt");
-        ArrayList<Map> questionList = new ArrayList<>();
-        Map<String, Object> questionGroupMap = null;
+        List<TopicDataDTO> topicDataDTOList = new ArrayList<>();
+        List<TopicDataOptionDTO> topicDataOptionDTOlist = null;
+
         for (int i = 0; i < arrayList.size(); i++) {
             String row = arrayList.get(i).trim();
             if(row.replace(" ","").equals(""))
                 continue;
             if(row.equals(""))
                 continue;
-            int len = (questionList.size()+"").length();
+            int len = (topicDataDTOList.size()+"").length();
             if(row.length()<=len)
                 continue;
             String strNum = row.substring(0,len);
@@ -34,22 +37,13 @@ public class TopicFileHandleUtil {
             try {
                 num = Integer.valueOf(strNum);
                 //如果是数字就创建一个集合
-                questionGroupMap= new HashMap<>();
-                questionGroupMap.put("quetion",row.substring(len+1));
-                questionList.add(questionGroupMap);
+                topicDataOptionDTOlist = new ArrayList<>();
+                topicDataDTOList.add(new TopicDataDTO(num,row.substring(len+1).trim(),topicDataOptionDTOlist));
             } catch (NumberFormatException e) {
-                String ind = row.substring(0, 2);
-                String text = row.substring(2).trim();
-                Map<String,String> options;
-                if (questionGroupMap.containsKey("options"))
-                    options = (Map<String, String>) questionGroupMap.get("options");
-                else
-                    options = new HashMap<>();
-                options.put(ind.trim(),text.trim());
-                questionGroupMap.put("options",options);
+                topicDataOptionDTOlist.add(new TopicDataOptionDTO(row.substring(0, 2).trim(), row.substring(2).trim()));
             }
         }
-        return questionList;
+        return new Gson().toJson(topicDataDTOList);
     }
 
 
