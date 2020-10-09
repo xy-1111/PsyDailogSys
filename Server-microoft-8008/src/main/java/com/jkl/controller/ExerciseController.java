@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
-import static com.jkl.TopicJson.MBTI93;
 
 /**
  * @author zhongxin
