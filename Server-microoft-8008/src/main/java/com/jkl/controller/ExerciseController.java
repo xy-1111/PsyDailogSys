@@ -2,10 +2,7 @@ package com.jkl.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jkl.TopicJson;
-import com.jkl.Utils.TopicFileHandleUtil;
 import com.jkl.bean.DTO.TopicDataDTO;
-import com.jkl.bean.TopicBean;
 import com.jkl.bean.VO.ReturnVO;
 import com.jkl.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.jkl.TopicJson.MBTI93;
 
